@@ -62,6 +62,13 @@ export default function BookingSection() {
     setDate(undefined);
   }
 
+  const disablePastDates = (date: Date) => {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    yesterday.setHours(23, 59, 59, 999);
+    return date < yesterday;
+  }
+
   return (
     <section id="booking" className="w-full py-12 md:py-24 lg:py-32 bg-card">
       <div className="container px-4 md:px-6">
@@ -135,8 +142,7 @@ export default function BookingSection() {
                                 mode="single"
                                 selected={field.value}
                                 onSelect={field.onChange}
-                                disabled={isMounted ? ((date) => date < new Date() || date < new Date("1900-01-01")) : () => false}
-                                initialFocus
+                                disabled={isMounted ? disablePastDates : () => false}
                               />
                             </PopoverContent>
                           </Popover>
@@ -180,6 +186,7 @@ export default function BookingSection() {
                             setDate(newDate);
                             form.setValue("eventDate", newDate as Date, { shouldValidate: true });
                         }}
+                        disabled={isMounted ? disablePastDates : () => false}
                         className="rounded-md border"
                     />
                 </CardContent>
