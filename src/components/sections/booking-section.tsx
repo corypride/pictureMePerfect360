@@ -39,7 +39,6 @@ const timeSlots = [
 ];
 
 export default function BookingSection() {
-  const [date, setDate] = useState<Date>();
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const [isMounted, setIsMounted] = useState(false);
@@ -55,6 +54,7 @@ export default function BookingSection() {
     defaultValues: {
       name: "",
       email: "",
+      message: "",
     },
   });
 
@@ -72,7 +72,6 @@ export default function BookingSection() {
     });
 
     form.reset();
-    setDate(undefined);
   }
 
   const disablePastDates = (date: Date) => {
@@ -92,8 +91,8 @@ export default function BookingSection() {
             Ready to make your event unforgettable? Select a date, fill out the form, and let's get the party started!
           </p>
         </div>
-        <div className="mt-12 grid gap-12 lg:grid-cols-5">
-          <div className="lg:col-span-3">
+        <div className="mt-12 grid gap-12 lg:grid-cols-3">
+          <div className="lg:col-span-2">
             <Card className="h-full">
               <CardHeader>
                 <CardTitle>Schedule an Event</CardTitle>
@@ -158,7 +157,6 @@ export default function BookingSection() {
                                   selected={field.value}
                                   onSelect={field.onChange}
                                   disabled={isMounted ? disablePastDates : () => true}
-                                  initialFocus={false}
                                   today={today}
                                 />
                               </PopoverContent>
@@ -214,29 +212,7 @@ export default function BookingSection() {
               </CardContent>
             </Card>
           </div>
-          <div className="lg:col-span-2 space-y-8">
-             <Card>
-                <CardHeader>
-                    <CardTitle>Choose A Date</CardTitle>
-                    <CardDescription>Select your desired event date from the calendar.</CardDescription>
-                </CardHeader>
-                <CardContent className="flex justify-center">
-                    <Calendar
-                        mode="single"
-                        selected={date}
-                        onSelect={(newDate) => {
-                            setDate(newDate);
-                            if (newDate) {
-                              form.setValue("eventDate", newDate, { shouldValidate: true });
-                            }
-                        }}
-                        disabled={isMounted ? disablePastDates : () => true}
-                        className="rounded-md border"
-                        initialFocus={false}
-                        today={today}
-                    />
-                </CardContent>
-            </Card>
+          <div className="lg:col-span-1 space-y-8">
             <Card>
                 <CardHeader>
                     <CardTitle>Payment Options</CardTitle>
