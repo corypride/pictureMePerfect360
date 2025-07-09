@@ -42,11 +42,9 @@ export default function BookingSection() {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const [isMounted, setIsMounted] = useState(false);
-  const [today, setToday] = useState<Date | undefined>(undefined);
-
+  
   useEffect(() => {
     setIsMounted(true);
-    setToday(new Date());
   }, []);
 
   const form = useForm<z.infer<typeof bookingFormSchema>>({
@@ -75,7 +73,8 @@ export default function BookingSection() {
   }
 
   const disablePastDates = (date: Date) => {
-    if (!today) return true;
+    if (!isMounted) return true;
+    const today = new Date();
     const yesterday = new Date(today);
     yesterday.setDate(yesterday.getDate() - 1);
     yesterday.setHours(23, 59, 59, 999);
@@ -91,12 +90,12 @@ export default function BookingSection() {
             Ready to make your event unforgettable? Select a date, fill out the form, and let's get the party started!
           </p>
         </div>
-        <div className="mt-12 grid gap-12 lg:grid-cols-3">
-          <div className="lg:col-span-2">
+        <div className="mt-12 grid gap-8 lg:grid-cols-5">
+          <div className="lg:col-span-3">
             <Card className="h-full">
               <CardHeader>
                 <CardTitle>Schedule an Event</CardTitle>
-                <CardDescription>Fill in your details and we'll get back to you to confirm.</CardDescription>
+                <CardDescription>Provide your event details below and we'll contact you to finalize everything.</CardDescription>
               </CardHeader>
               <CardContent>
                 <Form {...form}>
@@ -109,7 +108,7 @@ export default function BookingSection() {
                           <FormItem>
                             <FormLabel>Full Name</FormLabel>
                             <FormControl>
-                              <Input placeholder="John Doe" {...field} />
+                              <Input placeholder="Your Full Name" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -122,7 +121,7 @@ export default function BookingSection() {
                           <FormItem>
                             <FormLabel>Email Address</FormLabel>
                             <FormControl>
-                              <Input placeholder="you@example.com" {...field} />
+                              <Input placeholder="Your Email Address" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -142,12 +141,12 @@ export default function BookingSection() {
                                   <Button
                                     variant={"outline"}
                                     className={cn(
-                                      "w-full pl-3 text-left font-normal",
+                                      "w-full justify-start text-left font-normal",
                                       !field.value && "text-muted-foreground"
                                     )}
                                   >
+                                    <CalendarIcon className="mr-2 h-4 w-4" />
                                     {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
-                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                   </Button>
                                 </FormControl>
                               </PopoverTrigger>
@@ -157,7 +156,6 @@ export default function BookingSection() {
                                   selected={field.value}
                                   onSelect={field.onChange}
                                   disabled={isMounted ? disablePastDates : () => true}
-                                  today={today}
                                 />
                               </PopoverContent>
                             </Popover>
@@ -195,9 +193,9 @@ export default function BookingSection() {
                         name="message"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Message (Optional)</FormLabel>
+                            <FormLabel>Special Requests (Optional)</FormLabel>
                             <FormControl>
-                              <Textarea placeholder="Tell us about your event..." {...field} />
+                              <Textarea placeholder="Let us know about your event, theme, or any special needs." {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -212,7 +210,7 @@ export default function BookingSection() {
               </CardContent>
             </Card>
           </div>
-          <div className="lg:col-span-1 space-y-8">
+          <div className="lg:col-span-2 space-y-8">
             <Card>
                 <CardHeader>
                     <CardTitle>Payment Options</CardTitle>
