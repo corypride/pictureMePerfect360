@@ -87,8 +87,8 @@ export default function BookingSection() {
             Ready to make your event unforgettable? Select a date, fill out the form, and let's get the party started!
           </p>
         </div>
-        <div className="mt-12 grid gap-8 lg:grid-cols-5">
-          <div className="lg:col-span-3">
+        <div className="mt-12 grid gap-8 lg:grid-cols-3 justify-center">
+          <div className="lg:col-span-3 lg:col-start-1 lg:max-w-4xl mx-auto w-full">
             <Card className="h-full">
               <CardHeader className="text-center">
                 <CardTitle>Schedule an Event</CardTitle>
@@ -207,7 +207,7 @@ export default function BookingSection() {
               </CardContent>
             </Card>
           </div>
-          <div className="lg:col-span-2 space-y-8">
+          <div className="lg:col-span-3 lg:col-start-1 lg:max-w-4xl mx-auto w-full">
             <Card>
                 <CardHeader>
                     <CardTitle>Payment Options</CardTitle>
