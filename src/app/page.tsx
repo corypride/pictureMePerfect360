@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-dvh bg-black">
       <Header />
-      <main className="m-auto justify-items-center text-center text-white">
+      <main className="m-auto justify-items-center text-center">
         <HeroSection />
         <GallerySection />
         <PackagesSection />
