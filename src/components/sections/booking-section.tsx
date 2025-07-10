@@ -90,7 +90,7 @@ export default function BookingSection() {
         <div className="mt-12 grid gap-8 lg:grid-cols-5">
           <div className="lg:col-span-3">
             <Card className="h-full">
-              <CardHeader>
+              <CardHeader className="text-center">
                 <CardTitle>Schedule an Event</CardTitle>
                 <CardDescription>Provide your event details below and we'll contact you to finalize everything.</CardDescription>
               </CardHeader>
