@@ -7,12 +7,12 @@ export default function HeroSection() {
     <section className="w-full py-12 md:py-24 lg:py-32 px-4 md:px-6">
       <div className="container">
         <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:gap-24">
-          <div className="flex flex-col justify-center space-y-4">
+          <div className="flex flex-col justify-center space-y-4 text-center lg:text-left">
             <div className="space-y-2">
               <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl/none font-headline">
                 Capture Every Angle of Your Celebration
               </h1>
-              <p className="max-w-[600px] text-muted-foreground md:text-xl">
+              <p className="max-w-[600px] text-muted-foreground md:text-xl mx-auto lg:mx-0">
                 PictureMePerfect Hub offers a state-of-the-art 360° photo booth experience that brings your events to life. Perfect for weddings, parties, and corporate functions.
               </p>
             </div>
