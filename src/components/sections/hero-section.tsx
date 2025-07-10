@@ -16,7 +16,7 @@ export default function HeroSection() {
                 PictureMePerfect Hub offers a state-of-the-art 360° photo booth experience that brings your events to life. Perfect for weddings, parties, and corporate functions.
               </p>
             </div>
-            <div className="flex flex-col gap-2 min-[400px]:flex-row justify-center lg:justify-start">
+            <div className="flex flex-col gap-2 min-[400px]:flex-row">
               <Button asChild size="lg">
                 <Link href="#packages">View Packages</Link>
               </Button>
