@@ -4,10 +4,10 @@ import Image from "next/image";
 
 export default function HeroSection() {
   return (
-    <section className="w-full">
+    <section className="w-full py-12 md:py-24 lg:py-32">
       <div className="container px-4 md:px-6">
         <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:gap-24">
-          <div className="flex flex-col justify-center space-y-4 py-12 lg:py-24">
+          <div className="flex flex-col justify-center space-y-4">
             <div className="space-y-2">
               <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl/none font-headline">
                 Capture Every Angle of Your Celebration
@@ -25,7 +25,7 @@ export default function HeroSection() {
               </Button>
             </div>
           </div>
-          <div className="flex items-center justify-center py-12 lg:py-0">
+          <div className="flex items-center justify-center">
             <Image
               src="https://placehold.co/600x600.png"
               width="600"
