@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import { Calendar as CalendarIcon, Loader2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { processBooking, type BookingRequestInput } from "@/ai/flows/booking-flow";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -42,7 +43,7 @@ export default function BookingSection() {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const [isMounted, setIsMounted] = useState(false);
-  
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -58,18 +59,30 @@ export default function BookingSection() {
 
   async function onSubmit(values: z.infer<typeof bookingFormSchema>) {
     setIsLoading(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setIsLoading(false);
+    try {
+      const bookingData: BookingRequestInput = {
+        ...values,
+        eventDate: format(values.eventDate, "PPP"),
+      };
 
-    console.log(values);
-    
-    toast({
-      title: "Booking Request Sent!",
-      description: "Thank you! We've received your request and will be in touch shortly.",
-    });
+      const result = await processBooking(bookingData);
+      
+      toast({
+        title: "Booking Request Sent!",
+        description: result.confirmationMessage,
+      });
 
-    form.reset();
+      form.reset();
+    } catch (error) {
+      console.error("Booking failed:", error);
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request. Please try again.",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   const disablePastDates = (date: Date) => {
@@ -79,16 +92,16 @@ export default function BookingSection() {
   }
 
   return (
-    <section id="booking" className="w-full py-12 md:py-24 lg:py-32 bg-card">
-      <div className="container px-4 md:px-6">
+    <section id="booking" className="w-full py-12 md:py-24 lg:py-32 bg-card px-4 md:px-6">
+      <div className="container">
         <div className="mx-auto max-w-4xl text-center">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">Book Your Experience</h2>
           <p className="mt-4 text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
             Ready to make your event unforgettable? Select a date, fill out the form, and let's get the party started!
           </p>
         </div>
-        <div className="mt-12 grid gap-8 lg:grid-cols-3 justify-center">
-          <div className="lg:col-span-3 lg:col-start-1 lg:max-w-4xl mx-auto w-full">
+        <div className="mt-12 grid gap-8 justify-center lg:grid-cols-5">
+          <div className="lg:col-span-3 lg:col-start-2">
             <Card className="h-full">
               <CardHeader className="text-center">
                 <CardTitle>Schedule an Event</CardTitle>
@@ -207,21 +220,21 @@ export default function BookingSection() {
               </CardContent>
             </Card>
           </div>
-          <div className="lg:col-span-3 lg:col-start-1 lg:max-w-4xl mx-auto w-full">
+          <div className="lg:col-span-3 lg:col-start-2">
             <Card>
-                <CardHeader>
+                <CardHeader className="text-center">
                     <CardTitle>Payment Options</CardTitle>
-                    <CardDescription>We accept payments through PayPal and CashApp.</CardDescription>
+                    <CardDescription>We accept payments through PayPal and CashApp. Please update these links.</CardDescription>
                 </CardHeader>
                 <CardContent className="grid gap-4">
                     <Button asChild size="lg">
-                        <Link href="#" target="_blank" rel="noopener noreferrer">
+                        <Link href="https://paypal.me/your-username" target="_blank" rel="noopener noreferrer">
                             <PayPalIcon className="mr-2 h-6 w-6" />
                             Pay with PayPal
                         </Link>
                     </Button>
                     <Button asChild size="lg" variant="secondary">
-                         <Link href="#" target="_blank" rel="noopener noreferrer">
+                         <Link href="https://cash.app/$your-cashtag" target="_blank" rel="noopener noreferrer">
                             <CashAppIcon className="mr-2 h-6 w-6" />
                             Pay with Cash App
                         </Link>
