@@ -20,6 +20,7 @@ import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { PayPalIcon } from "../icons/paypal-icon";
 import { CashAppIcon } from "../icons/cash-app-icon";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose } from "@/components/ui/dialog";
 
 const bookingFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
@@ -214,18 +215,55 @@ export default function BookingSection() {
                     <CardDescription>We accept payments through PayPal and CashApp. Please update these links.</CardDescription>
                 </CardHeader>
                 <CardContent className="grid gap-4">
-                    <Button asChild size="lg">
-                        <Link href="https://paypal.me/your-username" target="_blank" rel="noopener noreferrer">
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button size="lg">
+                        <PayPalIcon className="mr-2 h-6 w-6" />
+                        Pay with PayPal
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Pay with PayPal</DialogTitle>
+                        <DialogDescription>
+                          Click the button below to complete your payment via PayPal. Please replace this link with your actual PayPal URL.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <DialogFooter className="sm:justify-center">
+                        <Button asChild>
+                          <Link href="https://paypal.me/your-username" target="_blank" rel="noopener noreferrer">
                             <PayPalIcon className="mr-2 h-6 w-6" />
-                            Pay with PayPal
-                        </Link>
-                    </Button>
-                    <Button asChild size="lg" variant="secondary">
-                         <Link href="https://cash.app/$your-cashtag" target="_blank" rel="noopener noreferrer">
-                            <CashAppIcon className="mr-2 h-6 w-6" />
-                            Pay with Cash App
-                        </Link>
-                    </Button>
+                            Proceed to PayPal
+                          </Link>
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
+                  
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button size="lg" variant="secondary">
+                          <CashAppIcon className="mr-2 h-6 w-6" />
+                          Pay with Cash App
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Pay with Cash App</DialogTitle>
+                        <DialogDescription>
+                          Click the button below to complete your payment via Cash App. Please replace this link with your actual Cash App cashtag.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <DialogFooter className="sm:justify-center">
+                        <Button asChild variant="secondary">
+                          <Link href="https://cash.app/$your-cashtag" target="_blank" rel="noopener noreferrer">
+                              <CashAppIcon className="mr-2 h-6 w-6" />
+                              Proceed to Cash App
+                          </Link>
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
                 </CardContent>
             </Card>
           </div>
