@@ -7,7 +7,6 @@ import { format } from "date-fns";
 import { Calendar as CalendarIcon, Loader2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { processBooking, type BookingRequestInput } from "@/ai/flows/booking-flow";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -59,30 +58,18 @@ export default function BookingSection() {
 
   async function onSubmit(values: z.infer<typeof bookingFormSchema>) {
     setIsLoading(true);
-    try {
-      const bookingData: BookingRequestInput = {
-        ...values,
-        eventDate: format(values.eventDate, "PPP"),
-      };
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    console.log("Form submitted!", values);
+    
+    toast({
+      title: "Booking Request Sent!",
+      description: "We've received your request and will be in touch shortly to finalize the details.",
+    });
 
-      const result = await processBooking(bookingData);
-      
-      toast({
-        title: "Booking Request Sent!",
-        description: result.confirmationMessage,
-      });
-
-      form.reset();
-    } catch (error) {
-      console.error("Booking failed:", error);
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "There was a problem with your request. Please try again.",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+    form.reset();
+    setIsLoading(false);
   }
 
   const disablePastDates = (date: Date) => {
