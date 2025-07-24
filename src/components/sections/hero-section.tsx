@@ -39,7 +39,7 @@ export default function HeroSection() {
               width="600"
               height="600"
               alt="Hero Image"
-              className="mx-auto aspect-square overflow-hidden rounded-xl object-cover opacity-0"
+              className="mx-auto aspect-square overflow-hidden rounded-xl object-cover"
               data-ai-hint="photo booth"
             />
           </div>
