@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon, Loader2 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -20,7 +20,7 @@ import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { PayPalIcon } from "../icons/paypal-icon";
 import { CashAppIcon } from "../icons/cash-app-icon";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
 
 const bookingFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
@@ -30,13 +30,20 @@ const bookingFormSchema = z.object({
   message: z.string().optional(),
 });
 
-const timeSlots = [
+const allTimeSlots = [
   "09:00 AM - 11:00 AM",
   "11:00 AM - 01:00 PM",
   "01:00 PM - 03:00 PM",
   "03:00 PM - 05:00 PM",
   "05:00 PM - 07:00 PM",
   "07:00 PM - 09:00 PM",
+];
+
+// In a real application, this would be fetched from a database
+const alreadyBookedSlots = [
+    { date: "2024-09-10", time: "09:00 AM - 11:00 AM" },
+    { date: "2024-09-10", time: "01:00 PM - 03:00 PM" },
+    { date: "2024-09-15", time: "03:00 PM - 05:00 PM" },
 ];
 
 export default function BookingSection() {
@@ -57,9 +64,26 @@ export default function BookingSection() {
     },
   });
 
+  const selectedDate = form.watch("eventDate");
+
+  const availableTimeSlots = useMemo(() => {
+    if (!selectedDate) return allTimeSlots;
+    
+    const formattedDate = format(selectedDate, "yyyy-MM-dd");
+    const bookedTimesForDate = alreadyBookedSlots
+        .filter(slot => slot.date === formattedDate)
+        .map(slot => slot.time);
+    
+    return allTimeSlots.filter(slot => !bookedTimesForDate.includes(slot));
+  }, [selectedDate]);
+
+  useEffect(() => {
+    // Reset eventTime if the selected date changes and the current time is not available
+    form.setValue("eventTime", "");
+  }, [selectedDate, form]);
+
   async function onSubmit(values: z.infer<typeof bookingFormSchema>) {
     setIsLoading(true);
-    // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
     
     console.log("Form submitted!", values);
@@ -139,18 +163,24 @@ export default function BookingSection() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>Event Time</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <Select onValueChange={field.onChange} value={field.value}>
                               <FormControl>
-                                <SelectTrigger>
+                                <SelectTrigger disabled={!selectedDate}>
                                   <SelectValue placeholder="Select a time" />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                {timeSlots.map((slot) => (
-                                  <SelectItem key={slot} value={slot}>
-                                    {slot}
-                                  </SelectItem>
-                                ))}
+                                {availableTimeSlots.length > 0 ? (
+                                    availableTimeSlots.map((slot) => (
+                                    <SelectItem key={slot} value={slot}>
+                                        {slot}
+                                    </SelectItem>
+                                    ))
+                                ) : (
+                                    <SelectItem value="no-slots" disabled>
+                                    No available slots
+                                    </SelectItem>
+                                )}
                               </SelectContent>
                             </Select>
                             <FormMessage />
