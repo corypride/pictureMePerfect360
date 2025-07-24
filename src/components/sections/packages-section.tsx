@@ -12,7 +12,7 @@ export default function PackagesSection() {
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline">
               Our Flexible Pricing
             </h2>
-            <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+            <p className="max-w-[900px] text-foreground/90 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
               Build the perfect package for your event. Start with our base rate and add what you need.
             </p>
           </div>
