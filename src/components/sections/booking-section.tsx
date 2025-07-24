@@ -1,3 +1,4 @@
+
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -39,17 +40,17 @@ const allTimeSlots = [
   "07:00 PM - 09:00 PM",
 ];
 
-// In a real application, this would be fetched from a database
-const alreadyBookedSlots = [
-    { date: "2024-09-10", time: "09:00 AM - 11:00 AM" },
-    { date: "2024-09-10", time: "01:00 PM - 03:00 PM" },
-    { date: "2024-09-15", time: "03:00 PM - 05:00 PM" },
-];
-
 export default function BookingSection() {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const [isMounted, setIsMounted] = useState(false);
+
+  // In a real application, this would be fetched from and updated to a database
+  const [bookedSlots, setBookedSlots] = useState([
+    { date: "2024-09-10", time: "09:00 AM - 11:00 AM" },
+    { date: "2024-09-10", time: "01:00 PM - 03:00 PM" },
+    { date: "2024-09-15", time: "03:00 PM - 05:00 PM" },
+  ]);
 
   useEffect(() => {
     setIsMounted(true);
@@ -70,21 +71,32 @@ export default function BookingSection() {
     if (!selectedDate) return allTimeSlots;
     
     const formattedDate = format(selectedDate, "yyyy-MM-dd");
-    const bookedTimesForDate = alreadyBookedSlots
+    const bookedTimesForDate = bookedSlots
         .filter(slot => slot.date === formattedDate)
         .map(slot => slot.time);
     
     return allTimeSlots.filter(slot => !bookedTimesForDate.includes(slot));
-  }, [selectedDate]);
+  }, [selectedDate, bookedSlots]);
 
   useEffect(() => {
     // Reset eventTime if the selected date changes and the current time is not available
-    form.setValue("eventTime", "");
-  }, [selectedDate, form]);
+    const currentEventTime = form.getValues("eventTime");
+    if (currentEventTime && !availableTimeSlots.includes(currentEventTime)) {
+      form.setValue("eventTime", "");
+    }
+  }, [selectedDate, availableTimeSlots, form]);
+
 
   async function onSubmit(values: z.infer<typeof bookingFormSchema>) {
     setIsLoading(true);
     await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    const newBooking = {
+        date: format(values.eventDate, "yyyy-MM-dd"),
+        time: values.eventTime,
+    };
+
+    setBookedSlots(prev => [...prev, newBooking]);
     
     console.log("Form submitted!", values);
     
@@ -93,7 +105,7 @@ export default function BookingSection() {
       description: "We've received your request and will be in touch shortly to finalize the details.",
     });
 
-    form.reset();
+    form.reset({ name: '', email: '', message: '' });
     setIsLoading(false);
   }
 
@@ -104,7 +116,7 @@ export default function BookingSection() {
   }
 
   return (
-    <section id="booking" className="w-full py-12 md:py-24 lg:py-32 bg-card px-4 md:px-6">
+    <section id="booking" className="w-full py-12 md:py-24 lg:py-32 px-4 md:px-6">
       <div className="container">
         <div className="mx-auto max-w-4xl text-center">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">Book Your Experience</h2>
