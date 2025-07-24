@@ -8,7 +8,7 @@ export default function HeroSection() {
       className="relative w-full py-20 md:py-32 lg:py-40 bg-cover bg-center bg-no-repeat"
     >
       <div className="absolute inset-0 bg-black/60" />
-      <div className="container relative z-10">
+      <div className="container relative z-10 px-4 md:px-6">
         <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:gap-24">
           <div className="flex flex-col justify-center space-y-4 text-center lg:text-left">
             <div className="space-y-2">
