@@ -1,19 +1,25 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 export default function HeroSection() {
   return (
-    <section className="w-full py-12 md:py-24 lg:py-32 px-4 md:px-6">
-      <div className="container">
+    <section
+      className="relative w-full py-20 md:py-32 lg:py-40 bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: "url('/logo-background.jpg')" }}
+    >
+      <div className="absolute inset-0 bg-black/60" />
+      <div className="container relative z-10">
         <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:gap-24">
           <div className="flex flex-col justify-center space-y-4 text-center lg:text-left">
             <div className="space-y-2">
               <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl/none font-headline text-yellow-500">
                 Capture Every Angle of Your Celebration
               </h1>
-              <p className="max-w-[600px] text-muted-foreground md:text-xl mx-auto lg:mx-0">
-                PictureMePerfect Hub offers a state-of-the-art 360° photo booth experience that brings your events to life. Perfect for weddings, parties, and corporate functions.
+              <p className="max-w-[600px] text-gray-200 md:text-xl mx-auto lg:mx-0">
+                PictureMePerfect Hub offers a state-of-the-art 360° photo booth
+                experience that brings your events to life. Perfect for
+                weddings, parties, and corporate functions.
               </p>
             </div>
             <div className="flex justify-center lg:justify-start">
@@ -27,13 +33,13 @@ export default function HeroSection() {
               </div>
             </div>
           </div>
-          <div className="flex items-center justify-center">
+          <div className="hidden items-center justify-center lg:flex">
             <Image
               src="https://placehold.co/600x600.png"
               width="600"
               height="600"
               alt="Hero Image"
-              className="mx-auto aspect-square overflow-hidden rounded-xl object-cover"
+              className="mx-auto aspect-square overflow-hidden rounded-xl object-cover opacity-0"
               data-ai-hint="photo booth"
             />
           </div>
