@@ -22,6 +22,7 @@ import { cn } from "@/lib/utils";
 import { PayPalIcon } from "../icons/paypal-icon";
 import { CashAppIcon } from "../icons/cash-app-icon";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
+import { VenmoIcon } from "../icons/venmo-icon";
 
 const bookingFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
@@ -254,7 +255,7 @@ export default function BookingSection() {
             <Card>
                 <CardHeader className="text-center">
                     <CardTitle>Payment Options</CardTitle>
-                    <CardDescription>We accept payments through PayPal and CashApp. Please update these links.</CardDescription>
+                    <CardDescription>We accept payments through PayPal, CashApp, and Venmo. Please update these links.</CardDescription>
                 </CardHeader>
                 <CardContent className="grid gap-4">
                   <Dialog>
@@ -301,6 +302,31 @@ export default function BookingSection() {
                           <Link href="https://cash.app/$your-cashtag" target="_blank" rel="noopener noreferrer">
                               <CashAppIcon className="mr-2 h-6 w-6" />
                               Proceed to Cash App
+                          </Link>
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
+
+                   <Dialog>
+                    <DialogTrigger asChild>
+                      <Button size="lg">
+                        <VenmoIcon className="mr-2 h-6 w-6" />
+                        Pay with Venmo
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Pay with Venmo</DialogTitle>
+                        <DialogDescription>
+                          Click the button below to complete your payment via Venmo. Please replace this link with your actual Venmo username.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <DialogFooter className="sm:justify-center">
+                        <Button asChild>
+                          <Link href="https://venmo.com/u/your-username" target="_blank" rel="noopener noreferrer">
+                            <VenmoIcon className="mr-2 h-6 w-6" />
+                            Proceed to Venmo
                           </Link>
                         </Button>
                       </DialogFooter>
