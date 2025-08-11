@@ -15,24 +15,26 @@ import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, Dialog
 import { PlayCircle } from "lucide-react";
 
 const galleryItems = [
-  { type: "video", src: "https://placehold.co/600x600.png", hint: "birthday party", videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4" },
+  { type: "video", src: "/Cory Pride.mp4", thumbnail: "https://placehold.co/600x600.png", hint: "birthday party", videoUrl: "/Cory Pride.mp4" },
   { type: "image", src: "https://placehold.co/600x600.png", hint: "Juneteenth Event" },
   { type: "image", src: "https://placehold.co/600x600.png", hint: "corporate event" },
   { type: "image", src: "https://placehold.co/600x600.png", hint: "outdoor festival" },
   { type: "image", src: "https://placehold.co/600x600.png", hint: "graduation celebration" },
-  { type: "video", src: "https://placehold.co/600x600.png", hint: "music concert", videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4" },
+  { type: "video", src: "https://placehold.co/600x600.png", thumbnail: "https://placehold.co/600x600.png", hint: "music concert", videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4" },
 ];
 
 export default function GallerySection() {
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
 
   const renderGalleryItem = (item: any, index: number) => {
+    const imageSrc = item.type === 'video' ? item.thumbnail : item.src;
+
     const content = (
        <Card className="overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
         <CardContent className="p-0">
           <div className="relative aspect-square">
             <Image
-              src={item.src}
+              src={imageSrc}
               alt={`Gallery item ${index + 1}`}
               fill
               className="object-cover transition-transform duration-300 group-hover:scale-105"
