@@ -15,7 +15,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { PlayCircle } from "lucide-react";
 
 const galleryItems = [
-  { type: "image", src: "https://placehold.co/600x600.png", hint: "wedding event" },
+  { type: "image", src: "https://placehold.co/600x600.png", hint: "Juneteenth Event" },
   { type: "video", src: "https://placehold.co/600x600.png", hint: "birthday party", videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4" },
   { type: "image", src: "https://placehold.co/600x600.png", hint: "corporate event" },
   { type: "image", src: "https://placehold.co/600x600.png", hint: "outdoor festival" },
