@@ -11,7 +11,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { PlayCircle } from "lucide-react";
 
 const galleryItems = [
@@ -56,9 +56,13 @@ export default function GallerySection() {
           </DialogTrigger>
           {videoUrl === item.videoUrl && (
             <DialogContent className="max-w-3xl aspect-video p-0">
-                <video className="w-full h-full" src={videoUrl} controls autoPlay>
-                    Your browser does not support the video tag.
-                </video>
+              <DialogHeader className="sr-only">
+                <DialogTitle>Event Video</DialogTitle>
+                <DialogDescription>A video showcasing a past event.</DialogDescription>
+              </DialogHeader>
+              <video className="w-full h-full" src={videoUrl} controls autoPlay>
+                  Your browser does not support the video tag.
+              </video>
             </DialogContent>
           )}
         </Dialog>
@@ -106,4 +110,3 @@ export default function GallerySection() {
     </section>
   );
 }
-
