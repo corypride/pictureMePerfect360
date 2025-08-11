@@ -15,12 +15,12 @@ import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, Dialog
 import { PlayCircle } from "lucide-react";
 
 const galleryItems = [
-  { type: "video", src: "/Cory Pride.mp4", thumbnail: "https://placehold.co/600x600.png", hint: "birthday party", videoUrl: "/Cory Pride.mp4" },
-  { type: "image", src: "https://placehold.co/600x600.png", hint: "Juneteenth Event" },
-  { type: "image", src: "https://placehold.co/600x600.png", hint: "corporate event" },
-  { type: "image", src: "https://placehold.co/600x600.png", hint: "outdoor festival" },
-  { type: "image", src: "https://placehold.co/600x600.png", hint: "graduation celebration" },
-  { type: "video", src: "https://www.w3schools.com/html/mov_bbb.mp4", thumbnail: "https://placehold.co/600x600.png", hint: "music concert", videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4" },
+  { type: "video", src: "/Cory Pride.mp4", thumbnail: "https://placehold.co/600x800.png", hint: "birthday party", videoUrl: "/Cory Pride.mp4" },
+  { type: "image", src: "https://placehold.co/600x800.png", hint: "Juneteenth Event" },
+  { type: "image", src: "https://placehold.co/600x800.png", hint: "corporate event" },
+  { type: "image", src: "https://placehold.co/600x800.png", hint: "outdoor festival" },
+  { type: "image", src: "https://placehold.co/600x800.png", hint: "graduation celebration" },
+  { type: "video", src: "https://www.w3schools.com/html/mov_bbb.mp4", thumbnail: "https://placehold.co/600x800.png", hint: "music concert", videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4" },
 ];
 
 export default function GallerySection() {
@@ -32,7 +32,7 @@ export default function GallerySection() {
     const content = (
        <Card className="overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
         <CardContent className="p-0">
-          <div className="relative aspect-square">
+          <div className="relative aspect-[3/4]">
             <Image
               src={imageSrc}
               alt={`Gallery item ${index + 1}`}
@@ -58,11 +58,11 @@ export default function GallerySection() {
           </DialogTrigger>
           {videoUrl === item.videoUrl && (
             <DialogContent className="w-full max-w-3xl h-auto max-h-[90vh] p-0">
-               <DialogHeader className="sr-only">
+              <DialogHeader className="sr-only">
                 <DialogTitle>Event Video</DialogTitle>
                 <DialogDescription>A video showcasing a past event.</DialogDescription>
               </DialogHeader>
-              <video className="w-full h-full object-contain" src={videoUrl} controls autoPlay>
+              <video className="w-full h-full max-h-[80vh] object-contain" src={videoUrl} controls autoPlay>
                   Your browser does not support the video tag.
               </video>
             </DialogContent>
