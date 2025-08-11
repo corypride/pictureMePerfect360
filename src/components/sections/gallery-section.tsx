@@ -79,20 +79,20 @@ export default function GallerySection() {
             <div className="cursor-pointer">{content}</div>
           </DialogTrigger>
           {activeVideoIndex !== null && (
-            <DialogContent className="w-full max-w-3xl h-auto max-h-[90vh] p-0 bg-black border-0">
+            <DialogContent className="w-full max-w-md h-auto max-h-[90vh] p-0 bg-black border-0">
                <DialogHeader className="sr-only">
                 <DialogTitle>Event Video</DialogTitle>
                 <DialogDescription>A video showcasing a past event. Use the navigation buttons to view other videos.</DialogDescription>
               </DialogHeader>
-              <div className="relative w-full h-full flex items-center justify-center">
-                <video className="w-full h-full max-h-[80vh] object-contain" src={videos[activeVideoIndex].videoUrl} controls autoPlay>
+              <div className="relative w-full aspect-[9/16] flex items-center justify-center">
+                <video className="w-full h-full object-cover" src={videos[activeVideoIndex].videoUrl} controls autoPlay>
                     Your browser does not support the video tag.
                 </video>
                  {activeVideoIndex > 0 && (
                     <Button
                         variant="ghost"
                         size="icon"
-                        className="absolute left-2 top-1/2 -translate-y-1/2 text-white/70 hover:bg-white/20 hover:text-white"
+                        className="absolute left-2 top-1/2 -translate-y-1/2 text-white/70 hover:bg-white/20 hover:text-white z-10"
                         onClick={handlePrevVideo}
                     >
                         <ChevronLeft className="h-10 w-10" />
@@ -102,7 +102,7 @@ export default function GallerySection() {
                     <Button
                         variant="ghost"
                         size="icon"
-                        className="absolute right-2 top-1/2 -translate-y-1/2 text-white/70 hover:bg-white/20 hover:text-white"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 text-white/70 hover:bg-white/20 hover:text-white z-10"
                         onClick={handleNextVideo}
                     >
                         <ChevronRight className="h-10 w-10" />
