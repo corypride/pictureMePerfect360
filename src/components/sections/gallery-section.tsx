@@ -79,13 +79,13 @@ export default function GallerySection() {
             <div className="cursor-pointer">{content}</div>
           </DialogTrigger>
           {activeVideoIndex !== null && (
-            <DialogContent className="w-full max-w-md h-auto max-h-[90vh] p-0 bg-black border-0">
+            <DialogContent className="w-full max-w-3xl h-auto p-0 bg-black border-0 flex items-center justify-center">
                <DialogHeader className="sr-only">
                 <DialogTitle>Event Video</DialogTitle>
                 <DialogDescription>A video showcasing a past event. Use the navigation buttons to view other videos.</DialogDescription>
               </DialogHeader>
-              <div className="relative w-full aspect-[9/16] flex items-center justify-center">
-                <video className="w-full h-full object-cover" src={videos[activeVideoIndex].videoUrl} controls autoPlay>
+              <div className="relative flex items-center justify-center max-w-full max-h-[85vh]">
+                <video className="w-auto h-auto max-w-full max-h-[85vh] object-contain" src={videos[activeVideoIndex].videoUrl} controls autoPlay>
                     Your browser does not support the video tag.
                 </video>
                  {activeVideoIndex > 0 && (
