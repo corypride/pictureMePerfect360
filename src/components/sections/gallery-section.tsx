@@ -20,7 +20,7 @@ const galleryItems = [
   { type: "image", src: "https://placehold.co/600x600.png", hint: "corporate event" },
   { type: "image", src: "https://placehold.co/600x600.png", hint: "outdoor festival" },
   { type: "image", src: "https://placehold.co/600x600.png", hint: "graduation celebration" },
-  { type: "video", src: "https://placehold.co/600x600.png", thumbnail: "https://placehold.co/600x600.png", hint: "music concert", videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4" },
+  { type: "video", src: "https://www.w3schools.com/html/mov_bbb.mp4", thumbnail: "https://placehold.co/600x600.png", hint: "music concert", videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4" },
 ];
 
 export default function GallerySection() {
@@ -57,12 +57,12 @@ export default function GallerySection() {
             <div className="cursor-pointer">{content}</div>
           </DialogTrigger>
           {videoUrl === item.videoUrl && (
-            <DialogContent className="max-w-3xl aspect-video p-0">
-              <DialogHeader className="sr-only">
+            <DialogContent className="w-full max-w-3xl h-auto max-h-[90vh] p-0">
+               <DialogHeader className="sr-only">
                 <DialogTitle>Event Video</DialogTitle>
                 <DialogDescription>A video showcasing a past event.</DialogDescription>
               </DialogHeader>
-              <video className="w-full h-full" src={videoUrl} controls autoPlay>
+              <video className="w-full h-full object-contain" src={videoUrl} controls autoPlay>
                   Your browser does not support the video tag.
               </video>
             </DialogContent>
