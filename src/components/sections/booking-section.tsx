@@ -274,7 +274,7 @@ export default function BookingSection() {
                       </DialogHeader>
                       <DialogFooter className="sm:justify-center">
                         <Button asChild>
-                          <Link href="https://paypal.me/your-username" target="_blank" rel="noopener noreferrer">
+                          <Link href="https://paypal.me/your-paypal-username" target="_blank" rel="noopener noreferrer">
                             <PayPalIcon className="mr-2 h-6 w-6" />
                             Proceed to PayPal
                           </Link>
@@ -299,7 +299,7 @@ export default function BookingSection() {
                       </DialogHeader>
                       <DialogFooter className="sm:justify-center">
                         <Button asChild variant="secondary">
-                          <Link href="https://cash.app/$your-cashtag" target="_blank" rel="noopener noreferrer">
+                          <Link href="https://cash.app/$YourCashtag" target="_blank" rel="noopener noreferrer">
                               <CashAppIcon className="mr-2 h-6 w-6" />
                               Proceed to Cash App
                           </Link>
@@ -324,7 +324,7 @@ export default function BookingSection() {
                       </DialogHeader>
                       <DialogFooter className="sm:justify-center">
                         <Button asChild>
-                          <Link href="https://venmo.com/u/your-username" target="_blank" rel="noopener noreferrer">
+                          <Link href="https://venmo.com/u/your-venmo-username" target="_blank" rel="noopener noreferrer">
                             <VenmoIcon className="mr-2 h-6 w-6" />
                             Proceed to Venmo
                           </Link>
