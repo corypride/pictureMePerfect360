@@ -12,7 +12,8 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { PlayCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { PlayCircle, ChevronLeft, ChevronRight } from "lucide-react";
 
 const galleryItems = [
   { type: "video", src: "/Cory Pride.mp4", thumbnail: "https://placehold.co/600x900.png", hint: "birthday party", videoUrl: "/Cory Pride.mp4" },
@@ -23,8 +24,28 @@ const galleryItems = [
   { type: "video", src: "https://www.w3schools.com/html/mov_bbb.mp4", thumbnail: "https://placehold.co/600x900.png", hint: "music concert", videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4" },
 ];
 
+const videos = galleryItems.filter(item => item.type === 'video');
+
 export default function GallerySection() {
-  const [videoUrl, setVideoUrl] = useState<string | null>(null);
+  const [activeVideoIndex, setActiveVideoIndex] = useState<number | null>(null);
+
+  const handleNextVideo = () => {
+    if (activeVideoIndex !== null) {
+      const nextIndex = activeVideoIndex + 1;
+      if (nextIndex < videos.length) {
+        setActiveVideoIndex(nextIndex);
+      }
+    }
+  };
+
+  const handlePrevVideo = () => {
+    if (activeVideoIndex !== null) {
+      const prevIndex = activeVideoIndex - 1;
+      if (prevIndex >= 0) {
+        setActiveVideoIndex(prevIndex);
+      }
+    }
+  };
 
   const renderGalleryItem = (item: any, index: number) => {
     const imageSrc = item.type === 'video' ? item.thumbnail : item.src;
@@ -51,20 +72,43 @@ export default function GallerySection() {
     );
 
     if (item.type === "video" && item.videoUrl) {
+      const videoIndex = videos.findIndex(v => v.videoUrl === item.videoUrl);
       return (
-        <Dialog onOpenChange={(open) => !open && setVideoUrl(null)}>
-          <DialogTrigger asChild onClick={() => setVideoUrl(item.videoUrl)}>
+        <Dialog onOpenChange={(open) => !open && setActiveVideoIndex(null)}>
+          <DialogTrigger asChild onClick={() => setActiveVideoIndex(videoIndex)}>
             <div className="cursor-pointer">{content}</div>
           </DialogTrigger>
-          {videoUrl === item.videoUrl && (
-            <DialogContent className="w-full max-w-3xl h-auto max-h-[90vh] p-0">
+          {activeVideoIndex !== null && (
+            <DialogContent className="w-full max-w-3xl h-auto max-h-[90vh] p-0 bg-black border-0">
                <DialogHeader className="sr-only">
                 <DialogTitle>Event Video</DialogTitle>
-                <DialogDescription>A video showcasing a past event.</DialogDescription>
+                <DialogDescription>A video showcasing a past event. Use the navigation buttons to view other videos.</DialogDescription>
               </DialogHeader>
-              <video className="w-full h-full max-h-[80vh] object-contain" src={videoUrl} controls autoPlay>
-                  Your browser does not support the video tag.
-              </video>
+              <div className="relative w-full h-full flex items-center justify-center">
+                <video className="w-full h-full max-h-[80vh] object-contain" src={videos[activeVideoIndex].videoUrl} controls autoPlay>
+                    Your browser does not support the video tag.
+                </video>
+                 {activeVideoIndex > 0 && (
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className="absolute left-2 top-1/2 -translate-y-1/2 text-white/70 hover:bg-white/20 hover:text-white"
+                        onClick={handlePrevVideo}
+                    >
+                        <ChevronLeft className="h-10 w-10" />
+                    </Button>
+                )}
+                {activeVideoIndex < videos.length - 1 && (
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 text-white/70 hover:bg-white/20 hover:text-white"
+                        onClick={handleNextVideo}
+                    >
+                        <ChevronRight className="h-10 w-10" />
+                    </Button>
+                )}
+              </div>
             </DialogContent>
           )}
         </Dialog>
