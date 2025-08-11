@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -5,7 +6,7 @@ import Link from "next/link";
 import { Menu } from "lucide-react";
 import { useState } from "react";
 
-import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 
 export default function Header() {
@@ -59,6 +60,12 @@ export default function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="right">
+              <SheetHeader className="sr-only">
+                  <SheetTitle>Mobile Navigation</SheetTitle>
+                  <SheetDescription>
+                    Main navigation links for PictureMePerfect Hub.
+                  </SheetDescription>
+              </SheetHeader>
               <div className="grid gap-4 p-4">
                 <SheetClose asChild>
                    <Link
