@@ -16,7 +16,7 @@ export default function HeroSection() {
                 Capture Every Angle of Your Celebration
               </h1>
               <p className="max-w-[600px] text-gray-200 md:text-xl mx-auto lg:mx-0">
-                PictureMePerfect Hub offers a state-of-the-art 360° photo booth
+                PictureMePerfect offers a state-of-the-art 360° photo booth
                 experience that brings your events to life. Perfect for
                 weddings, parties, and corporate functions.
               </p>
@@ -34,10 +34,10 @@ export default function HeroSection() {
           </div>
           <div className="hidden items-center justify-center lg:flex">
             <Image
-              src="https://placehold.co/600x600.png"
+              src="/img/logo_dark.png"
               width="600"
               height="600"
-              alt="Hero Image"
+              alt="Picture Me Perfect"
               className="mx-auto aspect-square overflow-hidden rounded-xl object-cover"
               data-ai-hint="photo booth"
             />
