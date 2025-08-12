@@ -32,7 +32,7 @@ export default function HeroSection() {
               </div>
             </div>
           </div>
-          <div className="hidden items-center justify-center lg:flex">
+          <div className="flex items-center justify-center lg:flex">
             <Image
               src="/img/logo_dark.png"
               width="600"
