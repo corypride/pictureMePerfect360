@@ -17,7 +17,8 @@ import { PlayCircle, ChevronLeft, ChevronRight } from "lucide-react";
 
 const galleryItems = [
   { type: "video", src: "/vids/06_2024_blk_xl/blkXlBaby_and_me.mov", hint: "Juneteenth Black Exellence Ball" , videoUrl: "/vids/06_2024_blk_xl/blkXlBaby_and_me.mov", thumbnail: "/img/blkXlBaby_and_me.png"},
-  { type: "video", src: "/vids/06_2024_blk_xl/blkXlCoryPride.mov", thumbnail: "https://placehold.co/600x900.png", hint: "Juneteenth Black Exellence Ball", videoUrl: "vids/06_2024_blk_xl/blkXlCoryPride.mov" },
+  { type: "video", src: "/vids/06_2024_blk_xl/blkXlCoryPride.mov", hint: "Juneteenth Black Exellence Ball", videoUrl: "vids/06_2024_blk_xl/blkXlCoryPride.mov", thumbnail: "/img/blkXlCoryPride.png"},
+  { type: "video", src: "/vids/06_2024_blk_xl/blxXl_byrd_ressie.MP4", hint: "Juneteenth Black Exellence Ball", videoUrl: "/vids/06_2024_blk_xl/blxXl_byrd_ressie.MP4", thumbnail: "/img/blxXl_byrd_ressie.png"},
   { type: "image", src: "https://placehold.co/600x900.png", hint: "Juneteenth Black Exellence Ball" },
   { type: "image", src: "https://placehold.co/600x900.png", hint: "Juneteenth Black Exellence Ball" },
   { type: "image", src: "https://placehold.co/600x900.png", hint: "Juneteenth Black Exellence Ball" },

@@ -17,10 +17,10 @@ export default function Header() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2" prefetch={false}>
           <Image 
-            src="https://placehold.co/50x50.png"
+            src="/img/logo_dark.png"
             width={40}
             height={40}
-            alt="PictureMePerfect Hub Logo"
+            alt="PictureMePerfect Logo"
             data-ai-hint="logo company"
             className="h-10 w-10"
           />
