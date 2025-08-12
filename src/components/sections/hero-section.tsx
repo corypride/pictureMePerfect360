@@ -32,15 +32,16 @@ export default function HeroSection() {
               </div>
             </div>
           </div>
-          <div className="flex items-center justify-center lg:flex">
-            <Image
-              src="/img/logo_dark.png"
-              width="600"
-              height="600"
-              alt="Picture Me Perfect"
-              className="mx-auto aspect-square overflow-hidden rounded-xl object-cover"
-              data-ai-hint="photo booth"
-            />
+          <div className="flex items-center justify-center">
+            <div className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
+                <Image
+                src="/img/logo_dark.png"
+                fill
+                alt="Picture Me Perfect"
+                className="mx-auto aspect-square overflow-hidden rounded-xl object-cover"
+                data-ai-hint="photo booth"
+                />
+            </div>
           </div>
         </div>
       </div>
