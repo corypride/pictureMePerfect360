@@ -16,11 +16,11 @@ import { Button } from "@/components/ui/button";
 import { PlayCircle, ChevronLeft, ChevronRight } from "lucide-react";
 
 const galleryItems = [
-  { type: "video", src: "/Cory Pride.mp4", thumbnail: "https://placehold.co/600x900.png", hint: "birthday party", videoUrl: "/Cory Pride.mp4" },
-  { type: "image", src: "https://placehold.co/600x900.png", hint: "Juneteenth Event" },
-  { type: "image", src: "https://placehold.co/600x900.png", hint: "corporate event" },
-  { type: "image", src: "https://placehold.co/600x900.png", hint: "outdoor festival" },
-  { type: "image", src: "https://placehold.co/600x900.png", hint: "graduation celebration" },
+  { type: "video", src: "/vids/06_2024_blk_xl/blkXlBaby_and_me.mov", hint: "Juneteenth Black Exellence Ball" , videoUrl: "/vids/06_2024_blk_xl/blkXlBaby_and_me.mov", thumbnail: "/img/blkXlBaby_and_me.png"},
+  { type: "video", src: "/vids/06_2024_blk_xl/blkXlCoryPride.mov", thumbnail: "https://placehold.co/600x900.png", hint: "Juneteenth Black Exellence Ball", videoUrl: "vids/06_2024_blk_xl/blkXlCoryPride.mov" },
+  { type: "image", src: "https://placehold.co/600x900.png", hint: "Juneteenth Black Exellence Ball" },
+  { type: "image", src: "https://placehold.co/600x900.png", hint: "Juneteenth Black Exellence Ball" },
+  { type: "image", src: "https://placehold.co/600x900.png", hint: "Juneteenth Black Exellence Ball" },
   { type: "video", src: "https://www.w3schools.com/html/mov_bbb.mp4", thumbnail: "https://placehold.co/600x900.png", hint: "music concert", videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4" },
 ];
 
