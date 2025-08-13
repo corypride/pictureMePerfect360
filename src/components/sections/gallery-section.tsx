@@ -14,10 +14,11 @@ import {
 import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { PlayCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const galleryItems = [
   { type: "video", src: "/vids/06_2024_blk_xl/blkXlBaby_and_me.mov", hint: "Juneteenth Black Exellence Ball" , videoUrl: "/vids/06_2024_blk_xl/blkXlBaby_and_me.mov", thumbnail: "/img/blkXlBaby_and_me.png"},
-  { type: "video", src: "/vids/06_2024_blk_xl/blkXlCoryPride.mov", hint: "Juneteenth Black Exellence Ball", videoUrl: "vids/06_2024_blk_xl/blkXlCoryPride.mov", thumbnail: "/img/blkXlCoryPride.png"},
+  { type: "video", src: "/vids/06_2024_blk_xl/blkXlCoryPride.mov", hint: "Juneteenth Black Exellence Ball", videoUrl: "/vids/06_2024_blk_xl/blkXlCoryPride.mov", thumbnail: "/img/blkXlCoryPride.png"},
   { type: "video", src: "/vids/06_2024_blk_xl/blxXl_byrd_ressie.MP4", hint: "Juneteenth Black Exellence Ball", videoUrl: "/vids/06_2024_blk_xl/blxXl_byrd_ressie.MP4", thumbnail: "/img/blxXl_byrd_ressie.png"},
   { type: "image", src: "https://placehold.co/600x900.png", hint: "Juneteenth Black Exellence Ball" },
   { type: "image", src: "https://placehold.co/600x900.png", hint: "Juneteenth Black Exellence Ball" },
@@ -29,6 +30,7 @@ const videos = galleryItems.filter(item => item.type === 'video');
 
 export default function GallerySection() {
   const [activeVideoIndex, setActiveVideoIndex] = useState<number | null>(null);
+  const isMobile = useIsMobile();
 
   const handleNextVideo = () => {
     if (activeVideoIndex !== null) {
@@ -85,7 +87,7 @@ export default function GallerySection() {
                 <DialogTitle>Event Video</DialogTitle>
                 <DialogDescription>A video showcasing a past event. Use the navigation buttons to view other videos.</DialogDescription>
               </DialogHeader>
-              <div className="relative flex items-center justify-center max-w-full max-h-[85vh]">
+              <div className="relative flex items-center justify-center w-full h-full max-w-full max-h-[85vh]">
                 <video className="w-auto h-auto max-w-full max-h-[85vh] object-contain" src={videos[activeVideoIndex].videoUrl} controls autoPlay>
                     Your browser does not support the video tag.
                 </video>
@@ -132,26 +134,36 @@ export default function GallerySection() {
             </p>
           </div>
         </div>
-        <div className="relative">
-          <Carousel
-            opts={{
-              align: "start",
-              loop: true,
-            }}
-            className="w-full max-w-6xl mx-auto mt-12"
-          >
-            <CarouselContent>
-              {galleryItems.map((item, index) => (
-                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                  <div className="p-1">
-                    {renderGalleryItem(item, index)}
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10" />
-            <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10" />
-          </Carousel>
+        <div className="relative mt-12">
+            {isMobile ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {galleryItems.map((item, index) => (
+                        <div key={index} className="p-1">
+                            {renderGalleryItem(item, index)}
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <Carousel
+                    opts={{
+                    align: "start",
+                    loop: true,
+                    }}
+                    className="w-full max-w-6xl mx-auto"
+                >
+                    <CarouselContent>
+                    {galleryItems.map((item, index) => (
+                        <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                        <div className="p-1">
+                            {renderGalleryItem(item, index)}
+                        </div>
+                        </CarouselItem>
+                    ))}
+                    </CarouselContent>
+                    <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10" />
+                    <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10" />
+                </Carousel>
+            )}
         </div>
       </div>
     </section>
