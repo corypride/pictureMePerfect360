@@ -37,7 +37,7 @@ export default function HeroSection() {
               src="/img/logo_transparent.png"
               fill
               alt="Picture Me Perfect"
-              className="mx-auto aspect-square overflow-hidden rounded-xl object-cover"
+              className="mx-auto aspect-square overflow-hidden rounded-xl object-contain"
               data-ai-hint="photo booth"
             />
           </div>
