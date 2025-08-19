@@ -12,7 +12,7 @@ export default function HeroSection() {
         <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:gap-24 lg:items-start">
           <div className="flex flex-col justify-center space-y-4 text-center lg:text-left">
             <div className="space-y-2">
-              <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl/none font-headline text-yellow-500">
+              <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl/none font-headline text-amber-200">
                 Capture Every Angle of Your Celebration
               </h1>
               <p className="max-w-[600px] text-gray-200 md:text-xl mx-auto lg:mx-0">
