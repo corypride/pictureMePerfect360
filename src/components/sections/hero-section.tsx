@@ -34,7 +34,7 @@ export default function HeroSection() {
           </div>
           <div className="relative w-full h-full min-h-[250px] md:min-h-[400px]">
             <Image
-              src="/img/logo_dark.png"
+              src="/img/logo_transparent.png"
               fill
               alt="Picture Me Perfect"
               className="mx-auto aspect-square overflow-hidden rounded-xl object-cover"

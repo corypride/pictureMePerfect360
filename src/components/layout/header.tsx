@@ -17,7 +17,7 @@ export default function Header() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2" prefetch={false}>
           <Image 
-            src="/img/logo_dark.png"
+            src="/img/logo_transparent.png"
             width={40}
             height={40}
             alt="PictureMePerfect Logo"
