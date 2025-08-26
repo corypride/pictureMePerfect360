@@ -7,9 +7,9 @@ import BookingSection from '@/components/sections/booking-section';
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-dvh bg-black">
+    <div className="flex flex-col min-h-dvh bg-background">
       <Header />
-      <main className="m-auto justify-items-center text-center">
+      <main className="flex-grow">
         <HeroSection />
         <GallerySection />
         <PackagesSection />
