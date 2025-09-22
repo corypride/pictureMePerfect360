@@ -5,9 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { format } from "date-fns";
-import { Calendar as CalendarIcon, Loader2 } from "lucide-react";
+import { Calendar as CalendarIcon, Loader2, CreditCard } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
-import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -19,10 +18,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import { PayPalIcon } from "../icons/paypal-icon";
-import { CashAppIcon } from "../icons/cash-app-icon";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
-import { VenmoIcon } from "../icons/venmo-icon";
+import { createCheckoutSession } from "@/app/actions/stripe";
 
 const bookingFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
@@ -87,27 +83,29 @@ export default function BookingSection() {
     }
   }, [selectedDate, availableTimeSlots, form]);
 
-
   async function onSubmit(values: z.infer<typeof bookingFormSchema>) {
     setIsLoading(true);
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    const newBooking = {
-        date: format(values.eventDate, "yyyy-MM-dd"),
-        time: values.eventTime,
-    };
 
-    setBookedSlots(prev => [...prev, newBooking]);
-    
-    console.log("Form submitted!", values);
-    
-    toast({
-      title: "Booking Request Sent!",
-      description: "We've received your request and will be in touch shortly to finalize the details.",
-    });
+    const formData = new FormData();
+    formData.append('name', values.name);
+    formData.append('email', values.email);
+    formData.append('eventDate', values.eventDate.toISOString());
+    formData.append('eventTime', values.eventTime);
+    if(values.message) formData.append('message', values.message);
 
-    form.reset({ name: '', email: '', message: '' });
-    setIsLoading(false);
+    try {
+        await createCheckoutSession(formData);
+        // The user will be redirected to Stripe by the server action, so no further action is needed here on success.
+    } catch(error) {
+        console.error("Stripe Checkout Error:", error);
+        toast({
+            title: "Something went wrong",
+            description: "We couldn't redirect you to checkout. Please try again.",
+            variant: "destructive"
+        })
+    } finally {
+        setIsLoading(false);
+    }
   }
 
   const disablePastDates = (date: Date) => {
@@ -244,95 +242,12 @@ export default function BookingSection() {
                       />
                     <Button type="submit" className="w-full" disabled={isLoading}>
                        {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                      Send Booking Request
+                       <CreditCard className="mr-2 h-4 w-4" />
+                      Book & Pay with Stripe
                     </Button>
                   </form>
                 </Form>
               </CardContent>
-            </Card>
-          </div>
-          <div className="lg:col-span-3 lg:col-start-2">
-            <Card>
-                <CardHeader className="text-center">
-                    <CardTitle>Payment Options</CardTitle>
-                    <CardDescription>We accept payments through PayPal, CashApp, and Venmo. Please update these links.</CardDescription>
-                </CardHeader>
-                <CardContent className="grid gap-4">
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button size="lg">
-                        <PayPalIcon className="mr-2 h-6 w-6" />
-                        Pay with PayPal
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>Pay with PayPal</DialogTitle>
-                        <DialogDescription>
-                          Click the button below to complete your payment via PayPal. Please replace this link with your actual PayPal URL.
-                        </DialogDescription>
-                      </DialogHeader>
-                      <DialogFooter className="sm:justify-center">
-                        <Button asChild>
-                          <Link href="https://paypal.me/your-paypal-username" target="_blank" rel="noopener noreferrer">
-                            <PayPalIcon className="mr-2 h-6 w-6" />
-                            Proceed to PayPal
-                          </Link>
-                        </Button>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
-                  
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button size="lg" variant="secondary">
-                          <CashAppIcon className="mr-2 h-6 w-6" />
-                          Pay with Cash App
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>Pay with Cash App</DialogTitle>
-                        <DialogDescription>
-                          Click the button below to complete your payment via Cash App. Please replace this link with your actual Cash App cashtag.
-                        </DialogDescription>
-                      </DialogHeader>
-                      <DialogFooter className="sm:justify-center">
-                        <Button asChild variant="secondary">
-                          <Link href="https://cash.app/$YourCashtag" target="_blank" rel="noopener noreferrer">
-                              <CashAppIcon className="mr-2 h-6 w-6" />
-                              Proceed to Cash App
-                          </Link>
-                        </Button>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
-
-                   <Dialog>
-                    <DialogTrigger asChild>
-                      <Button size="lg">
-                        <VenmoIcon className="mr-2 h-6 w-6" />
-                        Pay with Venmo
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>Pay with Venmo</DialogTitle>
-                        <DialogDescription>
-                          Click the button below to complete your payment via Venmo. Please replace this link with your actual Venmo username.
-                        </DialogDescription>
-                      </DialogHeader>
-                      <DialogFooter className="sm:justify-center">
-                        <Button asChild>
-                          <Link href="https://venmo.com/u/your-venmo-username" target="_blank" rel="noopener noreferrer">
-                            <VenmoIcon className="mr-2 h-6 w-6" />
-                            Proceed to Venmo
-                          </Link>
-                        </Button>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
-                </CardContent>
             </Card>
           </div>
         </div>
