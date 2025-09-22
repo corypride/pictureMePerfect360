@@ -5,13 +5,13 @@ import { Stripe } from 'stripe';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error('STRIPE_SECRET_KEY is not set in the environment variables');
-}
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
 export async function createCheckoutSession(formData: FormData) {
+  if (!process.env.STRIPE_SECRET_KEY) {
+    throw new Error('STRIPE_SECRET_KEY is not set in the environment variables');
+  }
+
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+  
   const headersList = headers();
   const origin = headersList.get('origin');
 
