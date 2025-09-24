@@ -67,32 +67,29 @@ export default function Header() {
                   </SheetDescription>
               </SheetHeader>
               <div className="grid gap-4 p-4">
-                <SheetClose asChild>
+                <SheetClose asChild onClick={() => setIsSheetOpen(false)}>
                    <Link
                       href="#gallery"
                       className="text-lg font-medium hover:text-accent transition-colors"
                       prefetch={false}
-                      onClick={() => setIsSheetOpen(false)}
                     >
                       Gallery
                     </Link>
                 </SheetClose>
-                <SheetClose asChild>
+                <SheetClose asChild onClick={() => setIsSheetOpen(false)}>
                     <Link
                       href="#packages"
                       className="text-lg font-medium hover:text-accent transition-colors"
                       prefetch={false}
-                      onClick={() => setIsSheetOpen(false)}
                     >
                       Packages
                     </Link>
                 </SheetClose>
-                 <SheetClose asChild>
+                 <SheetClose asChild onClick={() => setIsSheetOpen(false)}>
                     <Link
                       href="#booking"
                       className="text-lg font-medium hover:text-accent transition-colors"
                       prefetch={false}
-                      onClick={() => setIsSheetOpen(false)}
                     >
                       Book Now
                     </Link>
