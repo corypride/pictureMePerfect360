@@ -4,16 +4,20 @@
 import { Stripe } from 'stripe';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
+import "dotenv/config";
 
 export async function createCheckoutSession(formData: FormData) {
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+  if (!process.env.STRIPE_SECRET_KEY) {
+    throw new Error('STRIPE_SECRET_KEY is not set in the environment variables');
+  }
+
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
   
   const headersList = headers();
   const origin = headersList.get('origin') || 'http://localhost:9002';
 
-  let session;
   try {
-    session = await stripe.checkout.sessions.create({
+    const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
         {
@@ -40,14 +44,14 @@ export async function createCheckoutSession(formData: FormData) {
       }
     });
 
+    if (session.url) {
+      redirect(session.url);
+    } else {
+       throw new Error("Stripe session URL not found");
+    }
+
   } catch (err) {
     console.error(err);
     throw new Error('Could not create Stripe checkout session');
-  }
-
-  if (session?.url) {
-    redirect(session.url);
-  } else {
-    throw new Error("Stripe session URL not found");
   }
 }
