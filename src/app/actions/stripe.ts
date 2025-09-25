@@ -7,11 +7,7 @@ import { redirect } from 'next/navigation';
 import "dotenv/config";
 
 export async function createCheckoutSession(formData: FormData) {
-  if (!process.env.STRIPE_SECRET_KEY) {
-    throw new Error('STRIPE_SECRET_KEY is not set in the environment variables');
-  }
-
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
   
   const headersList = headers();
   const origin = headersList.get('origin') || 'http://localhost:9002';
