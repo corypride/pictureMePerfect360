@@ -4,7 +4,6 @@
 import { Stripe } from 'stripe';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import "dotenv/config";
 
 export async function createCheckoutSession(formData: FormData) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
@@ -48,6 +47,6 @@ export async function createCheckoutSession(formData: FormData) {
   if (session.url) {
     redirect(session.url);
   } else {
-      throw new Error("Stripe session URL not found");
+    throw new Error("Stripe session URL not found");
   }
 }
