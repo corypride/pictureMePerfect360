@@ -93,21 +93,19 @@ export default function BookingSection() {
     formData.append('eventTime', values.eventTime);
     if(values.message) formData.append('message', values.message);
 
-    await createCheckoutSession(formData);
-    
-    // The user will be redirected to Stripe by the server action.
-    // If the redirect fails for some reason (e.g. server error),
-    // the user will stay on the page. We can show a toast after a timeout.
-    setTimeout(() => {
-        if (isLoading) {
-             toast({
-                variant: "destructive",
-                title: "Payment Error",
-                description: "Could not redirect to Stripe. Please check your connection and try again.",
-            });
-            setIsLoading(false);
-        }
-    }, 5000);
+    try {
+      await createCheckoutSession(formData);
+      // The user will be redirected to Stripe by the server action.
+      // If the redirect fails, the catch block will handle the error.
+    } catch (error) {
+       toast({
+          variant: "destructive",
+          title: "Payment Error",
+          description: "Could not connect to Stripe. Please check your API keys and try again.",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   const disablePastDates = (date: Date) => {
