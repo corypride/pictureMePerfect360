@@ -18,6 +18,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { createCheckoutSession } from "@/app/actions/stripe";
+import { useToast } from "@/hooks/use-toast";
 
 const bookingFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
@@ -39,6 +40,7 @@ const allTimeSlots = [
 export default function BookingSection() {
   const [isLoading, setIsLoading] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const { toast } = useToast();
 
   // In a real application, this would be fetched from and updated to a database
   const [bookedSlots, setBookedSlots] = useState([
@@ -94,9 +96,20 @@ export default function BookingSection() {
     await createCheckoutSession(formData);
     
     // The user will be redirected to Stripe by the server action.
-    // If the redirect fails, the user will stay on the page and the loading state will be reset.
-    // A more robust solution would involve handling potential errors returned from the server action.
-    setIsLoading(false);
+    // If the redirect fails, we'll show a toast and reset the loading state.
+    // This happens if the server action throws an error that is caught by Next.js.
+    // The browser doesn't throw, but the form submission promise may not resolve.
+    // A timeout is a practical way to handle this on the client.
+    setTimeout(() => {
+        if (isLoading) {
+             toast({
+                variant: "destructive",
+                title: "Payment Error",
+                description: "Could not redirect to Stripe. Please check your connection and try again.",
+            });
+            setIsLoading(false);
+        }
+    }, 5000);
   }
 
   const disablePastDates = (date: Date) => {
