@@ -16,7 +16,6 @@ import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { createCheckoutSession } from "@/app/actions/stripe";
 
@@ -39,7 +38,6 @@ const allTimeSlots = [
 
 export default function BookingSection() {
   const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
   const [isMounted, setIsMounted] = useState(false);
 
   // In a real application, this would be fetched from and updated to a database
@@ -93,19 +91,12 @@ export default function BookingSection() {
     formData.append('eventTime', values.eventTime);
     if(values.message) formData.append('message', values.message);
 
-    try {
-        await createCheckoutSession(formData);
-        // The user will be redirected to Stripe by the server action, so no further action is needed here on success.
-    } catch(error) {
-        console.error("Stripe Checkout Error:", error);
-        toast({
-            title: "Something went wrong",
-            description: "We couldn't redirect you to checkout. Please try again.",
-            variant: "destructive"
-        })
-    } finally {
-        setIsLoading(false);
-    }
+    await createCheckoutSession(formData);
+    
+    // The user will be redirected to Stripe by the server action.
+    // If the redirect fails, the user will stay on the page and the loading state will be reset.
+    // A more robust solution would involve handling potential errors returned from the server action.
+    setIsLoading(false);
   }
 
   const disablePastDates = (date: Date) => {
