@@ -6,21 +6,14 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 export async function createCheckoutSession(formData: FormData) {
-  if (!process.env.STRIPE_SECRET_KEY) {
-    throw new Error('STRIPE_SECRET_KEY is not set in the environment variables');
-  }
-
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
   
   const headersList = headers();
-  const origin = headersList.get('origin');
+  const origin = headersList.get('origin') || 'http://localhost:9002';
 
-  if (!origin) {
-    throw new Error('Could not determine request origin');
-  }
-
+  let session;
   try {
-    const session = await stripe.checkout.sessions.create({
+    session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
         {
@@ -46,15 +39,15 @@ export async function createCheckoutSession(formData: FormData) {
         message: formData.get('message') as string,
       }
     });
-    
-    if (session.url) {
-      redirect(session.url);
-    } else {
-      throw new Error("Stripe session URL not found");
-    }
 
   } catch (err) {
     console.error(err);
     throw new Error('Could not create Stripe checkout session');
+  }
+
+  if (session?.url) {
+    redirect(session.url);
+  } else {
+    throw new Error("Stripe session URL not found");
   }
 }
