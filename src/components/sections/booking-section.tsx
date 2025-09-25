@@ -7,6 +7,7 @@ import { z } from "zod";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon, Loader2, CreditCard } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -41,6 +42,7 @@ export default function BookingSection() {
   const [isLoading, setIsLoading] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const { toast } = useToast();
+  const searchParams = useSearchParams();
 
   // In a real application, this would be fetched from and updated to a database
   const [bookedSlots, setBookedSlots] = useState([
@@ -52,6 +54,23 @@ export default function BookingSection() {
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (searchParams.get("success")) {
+      toast({
+        title: "Payment Successful!",
+        description: "Your booking has been confirmed. We'll be in touch shortly.",
+      });
+    }
+
+    if (searchParams.get("canceled")) {
+      toast({
+        variant: "destructive",
+        title: "Payment Canceled",
+        description: "Your payment was canceled. Please try again to complete your booking.",
+      });
+    }
+  }, [searchParams, toast]);
 
   const form = useForm<z.infer<typeof bookingFormSchema>>({
     resolver: zodResolver(bookingFormSchema),
