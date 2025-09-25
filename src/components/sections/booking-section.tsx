@@ -262,7 +262,7 @@ export default function BookingSection() {
                     <Button type="submit" className="w-full" disabled={isLoading}>
                        {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                        <CreditCard className="mr-2 h-4 w-4" />
-                      Book & Pay with Stripe
+                      Proceed to Payment
                     </Button>
                   </form>
                 </Form>
