@@ -50,3 +50,40 @@ export async function createCheckoutSession(formData: FormData) {
     throw new Error("Stripe session URL not found");
   }
 }
+
+export async function testStripeSession() {
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+  const headersList = headers();
+  const origin = headersList.get('origin') || 'http://localhost:9002';
+
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: 'Stripe Test Product',
+              description: 'This is a test to verify Stripe connectivity.',
+            },
+            unit_amount: 100, // $1.00
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: `${origin}/test-stripe?success=true`,
+      cancel_url: `${origin}/test-stripe?canceled=true`,
+    });
+
+    if (session.url) {
+      redirect(session.url);
+    }
+    
+    return { success: true, message: 'Stripe session created successfully.' };
+  } catch (error: any) {
+    console.error('Stripe Test Error:', error.message);
+    return { success: false, message: `Stripe API Error: ${error.message}` };
+  }
+}
