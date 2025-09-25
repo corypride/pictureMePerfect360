@@ -15,9 +15,10 @@ export async function createCheckoutSession(formData: FormData) {
   
   const headersList = headers();
   const origin = headersList.get('origin') || 'http://localhost:9002';
-
+  
+  let session;
   try {
-    const session = await stripe.checkout.sessions.create({
+    session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
         {
@@ -43,15 +44,14 @@ export async function createCheckoutSession(formData: FormData) {
         message: formData.get('message') as string,
       }
     });
-
-    if (session.url) {
-      redirect(session.url);
-    } else {
-       throw new Error("Stripe session URL not found");
-    }
-
   } catch (err) {
     console.error(err);
     throw new Error('Could not create Stripe checkout session');
+  }
+
+  if (session.url) {
+    redirect(session.url);
+  } else {
+      throw new Error("Stripe session URL not found");
   }
 }
