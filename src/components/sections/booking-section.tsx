@@ -96,10 +96,8 @@ export default function BookingSection() {
     await createCheckoutSession(formData);
     
     // The user will be redirected to Stripe by the server action.
-    // If the redirect fails, we'll show a toast and reset the loading state.
-    // This happens if the server action throws an error that is caught by Next.js.
-    // The browser doesn't throw, but the form submission promise may not resolve.
-    // A timeout is a practical way to handle this on the client.
+    // If the redirect fails for some reason (e.g. server error),
+    // the user will stay on the page. We can show a toast after a timeout.
     setTimeout(() => {
         if (isLoading) {
              toast({
