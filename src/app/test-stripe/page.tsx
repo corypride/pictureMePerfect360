@@ -9,7 +9,6 @@ import { useSearchParams } from 'next/navigation';
 
 export default function StripeTestPage() {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<{ success: boolean; message: string } | null>(null);
   const searchParams = useSearchParams();
 
   const success = searchParams.get('success');
@@ -17,13 +16,8 @@ export default function StripeTestPage() {
 
   const handleTest = async () => {
     setLoading(true);
-    setResult(null);
-    const response = await testStripeSession();
+    await testStripeSession();
     // The redirect will happen in the server action if successful.
-    // If it fails, we show the error.
-    if (!response.success) {
-      setResult(response);
-    }
     setLoading(false);
   };
 
@@ -42,12 +36,6 @@ export default function StripeTestPage() {
               {loading ? 'Testing...' : 'Run Stripe Test'}
             </Button>
           </form>
-          {result && !result.success && (
-            <div className="mt-4 p-4 rounded-md bg-red-100 text-red-800">
-              <p className="font-bold">Test Failed</p>
-              <p>{result.message}</p>
-            </div>
-          )}
            {success && (
             <div className="mt-4 p-4 rounded-md bg-green-100 text-green-800">
               <p className="font-bold">Payment Successful!</p>
