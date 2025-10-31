@@ -23,9 +23,19 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       }
     ],
+    // For static export, we need to use unoptimized images
+    unoptimized: process.env.NODE_ENV === 'production' && !process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.includes('live'),
   },
   experimental: {
     allowedDevOrigins: ["https://*.cloudworkstations.dev"],
+  },
+  // Static export configuration for Render
+  output: 'export',
+  trailingSlash: true,
+  distDir: 'out',
+  // Generate sitemap for static hosting
+  generateBuildId: async () => {
+    return 'build'
   },
 };
 

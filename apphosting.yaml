@@ -2,6 +2,29 @@
 # https://firebase.google.com/docs/app-hosting/configure
 
 runConfig:
-  # Increase this value if you'd like to automatically spin up
-  # more instances in response to increased traffic.
-  maxInstances: 1
+  # Automatically spin up instances in response to traffic
+  minInstances: 0
+  maxInstances: 3
+  concurrency: 80
+  cpu: 1
+  memoryMiB: 512
+
+# Environment variables
+env:
+  # Configure production environment variables here
+  - variable: NODE_ENV
+    value: production
+    availability: BUILD
+  - variable: NEXT_PUBLIC_SITE_URL
+    value: https://picturemeperfect360.web.app
+    availability: RUNTIME
+
+# Build settings
+build:
+  # Install dependencies
+  npmCommand: build
+
+# Post-deployment settings
+postDeploy:
+  # Custom health check endpoint
+  healthCheckPath: /api/health

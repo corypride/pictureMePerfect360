@@ -1,10 +1,9 @@
-
 'use client';
 
 import { testStripeSession } from '@/app/actions/stripe';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 export default function StripeTestPage() {
