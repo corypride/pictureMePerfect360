@@ -5,62 +5,9 @@ import { ErrorBoundary } from "@/components/error-boundary"
 import { Suspense } from 'react';
 
 export const metadata: Metadata = {
-  title: {
-    default: 'PictureMePerfect360 - 360° Photo Booth Rental',
-    template: '%s | PictureMePerfect360'
-  },
-  description: 'Professional 360° photo booth rental for weddings, parties, and events. Create unforgettable memories with our state-of-the-art spinning photo booth technology.',
-  keywords: ['360 photo booth', 'photo booth rental', 'event photography', 'wedding photo booth', 'party photo booth', 'event entertainment'],
-  authors: [{ name: 'PictureMePerfect360' }],
-  creator: 'PictureMePerfect360',
-  publisher: 'PictureMePerfect360',
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:9002'),
-  alternates: {
-    canonical: '/',
-  },
-  openGraph: {
-    title: 'PictureMePerfect360 - 360° Photo Booth Rental',
-    description: 'Professional 360° photo booth rental for weddings, parties, and events. Create unforgettable memories with our state-of-the-art spinning photo booth technology.',
-    type: 'website',
-    locale: 'en_US',
-    url: '/',
-    siteName: 'PictureMePerfect360',
-    images: [
-      {
-        url: '/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'PictureMePerfect360 360° Photo Booth',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'PictureMePerfect360 - 360° Photo Booth Rental',
-    description: 'Professional 360° photo booth rental for weddings, parties, and events.',
-    images: ['/og-image.jpg'],
-    creator: '@PictureMePerfect360',
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-  verification: {
-    google: 'your-google-verification-code',
-    yandex: 'your-yandex-verification-code',
-  },
+  title: 'PictureMePerfect Hub',
+  description: 'Your premier 360° photo booth experience.',
+  manifest: '/manifest.json',
 };
 
 export default function RootLayout({
@@ -74,7 +21,11 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
-        <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+        <meta name="application-name" content="PictureMePerfect Hub" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="PMP Hub" />
+        <link rel="apple-touch-icon" href="/img/logo_transparent.png" />
       </head>
       <body className="font-body antialiased">
         <ErrorBoundary>

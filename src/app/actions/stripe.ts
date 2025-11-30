@@ -11,17 +11,6 @@ export async function createCheckoutSession(formData: FormData) {
 
   const headersList = headers();
   const origin = headersList.get('origin') || 'http://localhost:9002';
-
-  const bookingDetails = {
-    name: formData.get('name') as string,
-    email: formData.get('email') as string,
-    eventDate: formData.get('eventDate') as string,
-    eventTime: formData.get('eventTime') as string,
-    message: formData.get('message') as string,
-    packageType: '360° Photo Booth - 2 Hours',
-    totalPrice: 200.00,
-  };
-
   let session;
   try {
     session = await stripe.checkout.sessions.create({
@@ -32,7 +21,9 @@ export async function createCheckoutSession(formData: FormData) {
             currency: 'usd',
             product_data: {
               name: '360° Photo Booth - 2 Hours',
-              description: `Booking for ${bookingDetails.name} on ${new Date(bookingDetails.eventDate).toLocaleDateString()}`,
+              description: `Booking for ${formData.get('name')} on ${new Date(
+                formData.get('eventDate') as string
+              ).toLocaleDateString()}`,
             },
             unit_amount: 20000, // $200.00
           },
@@ -42,12 +33,17 @@ export async function createCheckoutSession(formData: FormData) {
       mode: 'payment',
       success_url: `${origin}/?success=true`,
       cancel_url: `${origin}/?canceled=true`,
-      metadata: bookingDetails,
-      customer_email: bookingDetails.email,
+      metadata: {
+        name: formData.get('name') as string,
+        email: formData.get('email') as string,
+        eventDate: formData.get('eventDate') as string,
+        eventTime: formData.get('eventTime') as string,
+        message: formData.get('message') as string,
+      },
     });
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
-    throw new Error('Could not create Stripe checkout session');
+    throw new Error(`Could not create Stripe checkout session: ${err.message}`);
   }
 
   // Send confirmation emails (don't block the redirect)
@@ -59,7 +55,7 @@ export async function createCheckoutSession(formData: FormData) {
 
     redirect(session.url);
   } else {
-    throw new Error("Stripe session URL not found");
+    throw new Error('Stripe session URL not found');
   }
 }
 
@@ -83,8 +79,9 @@ export async function testStripeSession() {
   const headersList = headers();
   const origin = headersList.get('origin') || 'http://localhost:9002';
 
+  let session;
   try {
-    const session = await stripe.checkout.sessions.create({
+    session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
         {
@@ -103,14 +100,16 @@ export async function testStripeSession() {
       success_url: `${origin}/test-stripe?success=true`,
       cancel_url: `${origin}/test-stripe?canceled=true`,
     });
-
-    if (session.url) {
-      redirect(session.url);
-    }
-    
-    return { success: true, message: 'Stripe session created successfully.' };
   } catch (error: any) {
     console.error('Stripe Test Error:', error.message);
     return { success: false, message: `Stripe API Error: ${error.message}` };
   }
+  
+  if (session.url) {
+    redirect(session.url);
+  } else {
+     return { success: false, message: 'Stripe session URL not found.' };
+  }
 }
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
