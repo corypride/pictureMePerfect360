@@ -48,6 +48,16 @@ export async function createCheckoutSession(formData: FormData) {
 
   // Send confirmation emails (don't block the redirect)
   if (session.url) {
+    // Prepare booking details for email
+    const bookingDetails = {
+      name: formData.get('name') as string,
+      email: formData.get('email') as string,
+      eventDate: formData.get('eventDate') as string,
+      eventTime: formData.get('eventTime') as string,
+      message: formData.get('message') as string,
+      stripeSessionId: session.id,
+    };
+
     // Send emails asynchronously
     sendBookingEmails(bookingDetails).catch(err => {
       console.error('Failed to send booking emails:', err);
@@ -111,5 +121,3 @@ export async function testStripeSession() {
      return { success: false, message: 'Stripe session URL not found.' };
   }
 }
-import { headers } from 'next/headers';
-import { redirect } from 'next/navigation';

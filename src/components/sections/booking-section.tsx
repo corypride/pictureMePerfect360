@@ -48,7 +48,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import { createPaymentIntent } from "@/app/actions/stripe";
+import { createCheckoutSession } from "@/app/actions/stripe";
 import { useToast } from "@/hooks/use-toast";
 
 const bookingFormSchema = z.object({
@@ -102,34 +102,18 @@ const CheckoutForm = ({
     const bookingData = getBookingData();
     if (!bookingData) return;
 
-    const { clientSecret } = await createPaymentIntent(20000, { // 200 USD
-        name: bookingData.name,
-        email: bookingData.email,
-        eventDate: bookingData.eventDate.toISOString(),
-        eventTime: bookingData.eventTime,
-        message: bookingData.message || ''
-    });
+    // Create FormData for the Stripe action
+    const formData = new FormData();
+    formData.append('name', bookingData.name);
+    formData.append('email', bookingData.email);
+    formData.append('eventDate', bookingData.eventDate.toISOString());
+    formData.append('eventTime', bookingData.eventTime);
+    formData.append('message', bookingData.message || '');
 
-    if(!clientSecret) {
-        setErrorMessage("Could not create payment intent.");
-        setIsLoading(false);
-        return;
-    }
+    // Redirect to Stripe checkout
+    createCheckoutSession(formData);
 
-    const { error: confirmError } = await stripe.confirmPayment({
-      elements,
-      clientSecret,
-      confirmParams: {
-        return_url: `${window.location.origin}/?success=true`,
-      },
-    });
-
-    if (confirmError) {
-      setErrorMessage(confirmError.message ?? "An unknown error occurred during payment confirmation.");
-    } else {
-      onPaymentSuccess();
-    }
-    setIsLoading(false);
+    // The function above will redirect to Stripe, so no need to handle payment confirmation here
   }, [stripe, elements, getBookingData, onPaymentSuccess]);
 
   return (
@@ -218,23 +202,16 @@ export default function BookingSection() {
   }
 
   async function onSubmit(values: BookingFormValues) {
-    const { clientSecret, error } = await createPaymentIntent(20000, {
-        name: values.name,
-        email: values.email,
-        eventDate: values.eventDate.toISOString(),
-        eventTime: values.eventTime,
-        message: values.message || ''
-    });
+    // Create FormData for the Stripe action
+    const formData = new FormData();
+    formData.append('name', values.name);
+    formData.append('email', values.email);
+    formData.append('eventDate', values.eventDate.toISOString());
+    formData.append('eventTime', values.eventTime);
+    formData.append('message', values.message || '');
 
-    if (error || !clientSecret) {
-      toast({
-        variant: "destructive",
-        title: "Payment Error",
-        description: error || "Could not initialize payment.",
-      });
-      return;
-    }
-    setClientSecret(clientSecret);
+    // Redirect to Stripe checkout
+    await createCheckoutSession(formData);
   }
 
   const disablePastDates = (date: Date) => {
